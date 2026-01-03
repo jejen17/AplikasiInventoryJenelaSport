@@ -1,0 +1,104 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".HomeFragment"
+    android:background="@color/white"
+    android:fillViewport="true">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:padding="24dp">
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="40dp">
+
+            <androidx.cardview.widget.CardView
+                android:id="@+id/cardProfile"
+                android:layout_width="50dp"
+                android:layout_height="50dp"
+                android:layout_centerVertical="true"
+                app:cardCornerRadius="25dp"
+                xmlns:app="http://schemas.android.com/apk/res-auto">
+                <ImageView
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:src="@drawable/foto"
+                    android:scaleType="centerCrop"/>
+            </androidx.cardview.widget.CardView>
+
+            <LinearLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                android:layout_toEndOf="@id/cardProfile"
+                android:layout_centerVertical="true"
+                android:layout_marginStart="12dp">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Selamat Datang Kembali,"
+                    android:textSize="12sp"
+                    android:fontFamily="@font/opensansreguler"
+                    android:textColor="#808080"/>
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Nama Karyawan"
+                    android:textSize="16sp"
+                    android:fontFamily="@font/opensansbold"
+                    android:textColor="@color/black"/>
+            </LinearLayout>
+
+            <ImageView
+                android:layout_width="24dp"
+                android:layout_height="24dp"
+                android:src="@drawable/notif"
+                android:layout_alignParentEnd="true"
+                android:layout_centerVertical="true"
+                app:tint="@color/black"
+                xmlns:app="http://schemas.android.com/apk/res-auto"/>
+        </RelativeLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="vertical"
+            android:gravity="center">
+
+            <Button
+                android:id="@+id/btnSuratSPK"
+                android:layout_width="match_parent"
+                android:layout_height="80dp"
+                android:layout_marginBottom="30dp"
+                android:background="@drawable/bg_buttonspk"
+                android:fontFamily="@font/opensansbold"
+                android:text="Surat SPK"
+                android:textAllCaps="false"
+                android:textColor="@color/white"
+                android:textSize="18sp" />
+
+            <Button
+                android:id="@+id/btnKelolaHasil"
+                android:layout_width="match_parent"
+                android:layout_height="80dp"
+                android:text="Kelola Hasil Produksi"
+                android:textSize="18sp"
+                android:fontFamily="@font/opensansbold"
+                android:textColor="@color/black"
+                android:background="@drawable/bg_edittext"
+                android:textAllCaps="false"
+                android:layout_marginBottom="70dp"/>
+
+        </LinearLayout>
+
+    </LinearLayout>
+
+</ScrollView>

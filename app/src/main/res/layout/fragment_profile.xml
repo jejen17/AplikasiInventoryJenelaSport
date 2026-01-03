@@ -1,0 +1,240 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".ProfileFragment"
+    android:background="@color/white"
+    android:orientation="vertical"
+    android:padding="24dp">
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="30dp">
+
+        <ImageView
+            xmlns:app="http://schemas.android.com/apk/res-auto"
+            android:id="@+id/btnBack"
+            android:layout_width="24dp"
+            android:layout_height="24dp"
+            android:src="@drawable/go"
+            app:tint="@color/black"
+            android:layout_centerVertical="true"/>
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Profil"
+            android:textSize="20sp"
+            android:fontFamily="@font/opensansbold"
+            android:textColor="@color/medica_primary"
+            android:layout_centerInParent="true"/>
+    </RelativeLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:gravity="center"
+        android:layout_marginBottom="40dp">
+
+        <androidx.cardview.widget.CardView
+            xmlns:app="http://schemas.android.com/apk/res-auto"
+            android:layout_width="100dp"
+            android:layout_height="100dp"
+            app:cardCornerRadius="50dp"
+            app:cardElevation="0dp">
+
+            <ImageView
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:src="@drawable/foto"
+                android:scaleType="centerCrop"/>
+        </androidx.cardview.widget.CardView>
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Nama Karyawan"
+            android:textSize="18sp"
+            android:fontFamily="@font/opensansbold"
+            android:textColor="@color/black"
+            android:layout_marginTop="16dp"/>
+    </LinearLayout>
+
+
+
+    <LinearLayout
+        android:id="@+id/menuDataPribadi"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:gravity="center_vertical"
+        android:paddingVertical="12dp"
+        android:layout_marginTop="8dp"
+        android:background="?attr/selectableItemBackground">
+
+        <FrameLayout
+            android:layout_width="45dp"
+            android:layout_height="45dp"
+            android:background="@drawable/bg_circle">
+
+            <ImageView
+                xmlns:app="http://schemas.android.com/apk/res-auto"
+                android:layout_width="24dp"
+                android:layout_height="24dp"
+                android:src="@drawable/logacc"
+                app:tint="@color/medica_primary"
+                android:layout_gravity="center"/>
+
+        </FrameLayout>
+
+        <TextView
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:text="Data Pribadi"
+            android:fontFamily="@font/opensansbold"
+            android:textColor="@color/black"
+            android:textSize="16sp"
+            android:layout_marginStart="16dp"/>
+
+        <ImageView
+            xmlns:app="http://schemas.android.com/apk/res-auto"
+            android:layout_width="16dp"
+            android:layout_height="16dp"
+            android:src="@drawable/go"
+            android:rotation="180"
+            app:tint="#BDBDBD"/>
+    </LinearLayout>
+
+    <LinearLayout
+        android:id="@+id/menuSetelan"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:gravity="center_vertical"
+        android:paddingVertical="12dp"
+        android:background="?attr/selectableItemBackground">
+
+        <FrameLayout
+            android:layout_width="45dp"
+            android:layout_height="45dp"
+            android:background="@drawable/bg_circle">
+
+            <ImageView
+                xmlns:app="http://schemas.android.com/apk/res-auto"
+                android:layout_width="24dp"
+                android:layout_height="24dp"
+                android:src="@drawable/sett"
+                app:tint="@color/medica_primary"
+                android:layout_gravity="center"/>
+        </FrameLayout>
+
+
+        <TextView
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:text="Setelan"
+            android:fontFamily="@font/opensansbold"
+            android:textColor="@color/black"
+            android:textSize="16sp"
+            android:layout_marginStart="16dp"/>
+
+        <ImageView
+            xmlns:app="http://schemas.android.com/apk/res-auto"
+            android:layout_width="16dp"
+            android:layout_height="16dp"
+            android:src="@drawable/go"
+            android:rotation="180"
+            app:tint="#BDBDBD"/>
+    </LinearLayout>
+
+
+    <LinearLayout
+        android:id="@+id/menuBantuan"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:gravity="center_vertical"
+        android:paddingVertical="12dp"
+        android:background="?attr/selectableItemBackground">
+
+        <FrameLayout
+            android:layout_width="45dp"
+            android:layout_height="45dp"
+            android:background="@drawable/bg_circle">
+
+            <ImageView
+                xmlns:app="http://schemas.android.com/apk/res-auto"
+                android:layout_width="24dp"
+                android:layout_height="24dp"
+                android:src="@drawable/help"
+                app:tint="@color/medica_primary"
+                android:layout_gravity="center"/>
+        </FrameLayout>
+
+        <TextView
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:text="Bantuan"
+            android:fontFamily="@font/opensansbold"
+            android:textColor="@color/black"
+            android:textSize="16sp"
+            android:layout_marginStart="16dp"/>
+
+        <ImageView
+            xmlns:app="http://schemas.android.com/apk/res-auto"
+            android:layout_width="16dp"
+            android:layout_height="16dp"
+            android:src="@drawable/go"
+            android:rotation="180"
+            app:tint="#BDBDBD"/>
+    </LinearLayout>
+
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="90dp"/>
+
+
+
+    <LinearLayout
+        android:id="@+id/menuKeluar"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:gravity="center_vertical"
+        android:padding="12dp"
+        android:layout_marginBottom="16dp"
+        android:background="@drawable/bg_logout"
+        android:clickable="true"
+        android:focusable="true">
+
+        <FrameLayout
+            android:layout_width="36dp"
+            android:layout_height="36dp"
+            android:background="@drawable/bg_circle_red">
+
+            <ImageView
+                xmlns:app="http://schemas.android.com/apk/res-auto"
+                android:layout_width="18dp"
+                android:layout_height="18dp"
+                android:src="@drawable/iclog"
+                app:tint="@color/white"
+                android:layout_gravity="center"/>
+        </FrameLayout>
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Keluar"
+            android:fontFamily="@font/opensansbold"
+            android:textColor="#FF5252"
+            android:textSize="16sp"
+            android:layout_marginStart="16dp"/>
+
+    </LinearLayout>
+</LinearLayout>

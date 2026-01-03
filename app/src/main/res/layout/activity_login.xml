@@ -1,0 +1,115 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/main"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".Login"
+    android:background="@color/white">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical"
+        android:padding="24dp">
+
+        <TextView
+            android:id="@+id/tvWelcome"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Selamat Datang"
+            android:textColor="@color/medica_primary"
+            android:textSize="22sp"
+            android:fontFamily="@font/opensansbold"
+            android:gravity="center"
+            android:layout_marginTop="20dp" />
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Masuk"
+            android:textColor="@color/black"
+            android:textSize="20sp"
+            android:fontFamily="@font/opensansbold"
+            android:layout_marginTop="40dp"/>
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Lorem ipsum dolor sit amet, consectetur adipiscing elit."
+            android:textColor="#808080"
+            android:textSize="14sp"
+            android:layout_marginTop="8dp"
+            android:layout_marginBottom="24dp"/>
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Email"
+            android:fontFamily="@font/opensansbold"
+            android:textColor="@color/black"
+            android:layout_marginBottom="8dp"/>
+
+        <EditText
+            android:id="@+id/etEmail"
+            android:layout_width="match_parent"
+            android:layout_height="60dp"
+            android:background="@drawable/bg_edittext"
+            android:hint="Enter Your Email"
+            android:textColor="#808080"
+            android:inputType="textEmailAddress"
+            android:fontFamily="@font/opensansreguler"
+            android:textSize="14sp"
+            android:minHeight="48dp"
+            android:layout_marginBottom="16dp"/>
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Kata Sandi"
+            android:fontFamily="@font/opensansbold"
+            android:textColor="@color/black"
+            android:layout_marginBottom="8dp"/>
+
+        <EditText
+            android:id="@+id/etPassword"
+            android:layout_width="match_parent"
+            android:layout_height="60dp"
+            android:background="@drawable/bg_edittext"
+            android:hint="Enter Your Password"
+            android:inputType="textPassword"
+            android:textColor="#808080"
+            android:textSize="14sp"
+            android:fontFamily="@font/opensansreguler"
+            android:minHeight="48dp"
+            android:drawableEnd="@android:drawable/ic_menu_view"
+            android:drawableTint="@color/gray_input"/>
+
+        <TextView
+            android:id="@+id/tvForgotPassword"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Lupa Kata Sandi?"
+            android:textColor="@color/black"
+            android:fontFamily="@font/opensansbold"
+            android:textSize="14sp"
+            android:gravity="end"
+            android:layout_marginTop="8dp"
+            android:layout_marginBottom="40dp"/>
+
+        <Button
+            android:onClick="btnmsk"
+            android:layout_marginTop="199dp"
+            android:id="@+id/btnMasuk"
+            android:layout_width="match_parent"
+            android:layout_height="55dp"
+            android:text="Masuk"
+            android:textColor="@color/white"
+            android:background="@drawable/button_shape"
+            android:textSize="16sp"
+            android:fontFamily="@font/opensansbold"
+            />
+
+    </LinearLayout>
+</LinearLayout>
