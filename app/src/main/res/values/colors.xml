@@ -10,4 +10,5 @@
     <color name="medica_primary">#0B8FAC</color>
     <color name="gray_input">#F1F1F1</color>
     <color name="nav_icon_selected">#D2EBE7</color>
+    <color name="Gray">#808080</color>
 </resources>

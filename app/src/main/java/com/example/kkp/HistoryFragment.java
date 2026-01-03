@@ -54,7 +54,7 @@ public class HistoryFragment extends Fragment {
                 tab.setTypeface(fontBold);
             } else {
                 tab.setBackgroundResource(R.drawable.bg_filter_inactive);
-                tab.setTextColor(ContextCompat.getColor(requireContext(), R.color.gray_input));
+                tab.setTextColor(ContextCompat.getColor(requireContext(), R.color.Gray));
                 tab.setTypeface(fontRegular);
             }
         }

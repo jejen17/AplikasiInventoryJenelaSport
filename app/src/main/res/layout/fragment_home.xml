@@ -86,7 +86,7 @@
                 <ImageView
                     android:layout_width="24dp"
                     android:layout_height="24dp"
-                    android:src="@drawable/ic_launcher_foreground"
+                    android:src="@drawable/iccbarang"
                     app:tint="@color/black"/>
                 <TextView
                     android:layout_width="wrap_content"
@@ -119,7 +119,7 @@
                 <ImageView
                     android:layout_width="24dp"
                     android:layout_height="24dp"
-                    android:src="@android:drawable/ic_dialog_alert"
+                    android:src="@drawable/iccwarning"
                     app:tint="@color/black"/>
                 <TextView
                     android:layout_width="wrap_content"
@@ -152,7 +152,7 @@
             <ImageView
                 android:layout_width="24dp"
                 android:layout_height="24dp"
-                android:src="@android:drawable/ic_menu_edit"
+                android:src="@drawable/iccbarang1"
                 app:tint="@color/black"/>
             <TextView
                 android:layout_width="wrap_content"
