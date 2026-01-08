@@ -22,19 +22,11 @@
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="Pencatatan Barang"
+                android:text="Pencatatan Barang Masuk"
                 android:textSize="22dp"
                 android:fontFamily="@font/opensansbold"
                 android:textColor="@color/black"
                 android:layout_centerVertical="true"/>
-
-            <ImageView
-                android:layout_width="24dp"
-                android:layout_height="24dp"
-                android:src="@drawable/notif"
-                android:layout_alignParentEnd="true"
-                android:layout_centerVertical="true"
-                app:tint="@color/black"/>
         </RelativeLayout>
 
         <LinearLayout
@@ -43,36 +35,6 @@
             android:orientation="vertical"
             android:background="@drawable/bg_card_border"
             android:padding="16dp">
-
-            <LinearLayout
-                android:layout_width="wrap_content"
-                android:layout_height="40dp"
-                android:orientation="horizontal"
-                android:background="@drawable/bg_toggle_container"
-                android:padding="4dp"
-                android:layout_gravity="center_horizontal"
-                android:layout_marginBottom="24dp">
-
-                <TextView
-                    android:id="@+id/btnTabMasuk"
-                    android:layout_width="100dp"
-                    android:layout_height="match_parent"
-                    android:text="Masuk"
-                    android:gravity="center"
-                    android:textColor="@color/black"
-                    android:textStyle="bold"
-                    android:fontFamily="@font/opensansbold"
-                    android:background="@drawable/bg_toggle_active"/>
-
-                <TextView
-                    android:id="@+id/btnTabKeluar"
-                    android:layout_width="100dp"
-                    android:layout_height="match_parent"
-                    android:text="Keluar"
-                    android:gravity="center"
-                    android:fontFamily="@font/opensansreguler"
-                    android:textColor="#808080"/>
-            </LinearLayout>
 
             <TextView
                 android:layout_width="wrap_content"
@@ -118,6 +80,24 @@
 
             <Spinner
                 android:id="@+id/spinnerProduk"
+                android:layout_width="match_parent"
+                android:layout_height="50dp"
+                android:background="@drawable/bg_input_field"
+                android:paddingStart="12dp"
+                android:paddingEnd="12dp"
+                android:layout_marginBottom="16dp"
+                android:spinnerMode="dropdown"/>
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Ukuran"
+                android:fontFamily="@font/opensansbold"
+                android:textColor="#666666"
+                android:layout_marginBottom="8dp"/>
+
+            <Spinner
+                android:id="@+id/spinnerUkuran"
                 android:layout_width="match_parent"
                 android:layout_height="50dp"
                 android:background="@drawable/bg_input_field"
