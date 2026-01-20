@@ -37,7 +37,7 @@
         <TextView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="Lorem ipsum dolor sit amet, consectetur adipiscing elit."
+            android:text="Silahkan masukan Nama Pengguna dan Kata Sandi"
             android:textColor="#808080"
             android:textSize="14sp"
             android:layout_marginTop="8dp"
@@ -46,7 +46,7 @@
         <TextView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="Email"
+            android:text="Nama Pengguna"
             android:fontFamily="@font/opensansbold"
             android:textColor="@color/black"
             android:layout_marginBottom="8dp"/>
@@ -86,17 +86,6 @@
             android:drawableEnd="@android:drawable/ic_menu_view"
             android:drawableTint="@color/gray_input"/>
 
-        <TextView
-            android:id="@+id/tvForgotPassword"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:text="Lupa Kata Sandi?"
-            android:textColor="@color/black"
-            android:fontFamily="@font/opensansbold"
-            android:textSize="14sp"
-            android:gravity="end"
-            android:layout_marginTop="8dp"
-            android:layout_marginBottom="40dp"/>
 
         <Button
             android:layout_marginTop="199dp"

@@ -49,6 +49,7 @@
                     android:textColor="#808080"/>
 
                 <TextView
+                    android:id="@+id/tvNamaKaryawan"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="Nama Karyawan"
@@ -57,13 +58,6 @@
                     android:textColor="@color/black"/>
             </LinearLayout>
 
-            <ImageView
-                android:layout_width="24dp"
-                android:layout_height="24dp"
-                android:src="@drawable/notif"
-                android:layout_alignParentEnd="true"
-                android:layout_centerVertical="true"
-                app:tint="@color/black"/>
 
         </RelativeLayout>
 
@@ -88,6 +82,7 @@
                     android:layout_height="24dp"
                     android:src="@drawable/iccbarang"
                     app:tint="@color/black"/>
+
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"

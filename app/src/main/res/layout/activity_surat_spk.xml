@@ -58,14 +58,6 @@
                     android:textColor="@color/black"/>
             </LinearLayout>
 
-            <ImageView
-                android:layout_width="24dp"
-                android:layout_height="24dp"
-                android:src="@drawable/notif"
-                android:layout_alignParentEnd="true"
-                android:layout_centerVertical="true"
-                app:tint="@color/black"/>
-
         </RelativeLayout>
 
         <ListView
