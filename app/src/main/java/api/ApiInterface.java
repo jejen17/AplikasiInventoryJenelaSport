@@ -19,7 +19,7 @@ public interface ApiInterface {
             @Field("password") String password
     );
 
-    @GET("perintah-produksi")
+    @GET("android/spk-aktif")
     Call<SpkResponse> getSpkList(
             @Header("Authorization") String token
     );

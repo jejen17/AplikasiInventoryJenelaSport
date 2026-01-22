@@ -12,7 +12,7 @@ import android.widget.Toast;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 
-import model.SpkResponse; // Import model
+import model.SpkResponse;
 
 import java.util.List;
 
@@ -29,30 +29,25 @@ public class SuratSPKAdapter extends ArrayAdapter<SpkResponse.Spk> {
             convertView = LayoutInflater.from(getContext()).inflate(R.layout.item_surat_spk, parent, false);
         }
 
-        // Ambil Data SPK per baris
+
         SpkResponse.Spk spk = getItem(position);
 
         TextView tvNama = convertView.findViewById(R.id.tvNamaPelanggan);
         TextView tvTotal = convertView.findViewById(R.id.tvTotalItem);
 
         if (spk != null) {
-            // 1. Set Nama Pelanggan
-            // Cek null biar gak force close kalau datanya kosong
-            String namaPelanggan = (spk.getPelanggan() != null) ? spk.getPelanggan().getNama() : "Tanpa Nama";
-            tvNama.setText(namaPelanggan);
 
-            // 2. Set Total Item
+
+            tvNama.setText(spk.getNamaPelanggan());
+
+
             tvTotal.setText("Total Item: " + spk.getTotalItems() + " Barang");
 
-            // 3. EVENT KLIK -> PINDAH KE DETAIL
-            convertView.setOnClickListener(v -> {
-                // Kita buat Intent ke DetailActivity (yang nanti akan kita buat)
-                // Intent intent = new Intent(getContext(), DetailSuratActivity.class);
-                // intent.putExtra("SPK_DATA", spk); // Kirim seluruh objek SPK
-                // getContext().startActivity(intent);
 
-                // SEMENTARA: Tampilkan Toast dulu sampai DetailActivity dibuat
-                Toast.makeText(getContext(), "Membuka detail: " + namaPelanggan, Toast.LENGTH_SHORT).show();
+            convertView.setOnClickListener(v -> {
+                Intent intent = new Intent(getContext(), DetailSurat.class);
+                intent.putExtra("SPK_DATA", spk);
+                getContext().startActivity(intent);
             });
         }
 

@@ -1,8 +1,10 @@
 package com.example.kkp;
 
+import android.content.Context;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.widget.ListView;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
@@ -21,6 +23,7 @@ import retrofit2.Response;
 public class SuratSPK extends AppCompatActivity {
 
     ListView lvSuratSPK;
+    TextView namaKaryawan;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -28,9 +31,13 @@ public class SuratSPK extends AppCompatActivity {
         setContentView(R.layout.activity_surat_spk);
 
         lvSuratSPK = findViewById(R.id.lvSuratSPK);
-
+        namaKaryawan = findViewById(R.id.namaKaryawan);
 
         loadDataSpk();
+
+        SharedPreferences sharedPref = getSharedPreferences("UserSession", MODE_PRIVATE);
+        String nama = sharedPref.getString("nama", "Karyawan");
+        namaKaryawan.setText(nama);
     }
 
     private void loadDataSpk() {
