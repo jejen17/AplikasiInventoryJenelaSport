@@ -1,0 +1,61 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:orientation="vertical"
+    android:padding="20dp"
+    android:background="@color/white">
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Update Proses Produksi"
+        android:textSize="18sp"
+        android:fontFamily="@font/opensansbold"
+        android:textColor="@color/black"
+        android:layout_marginBottom="16dp"/>
+
+    <TextView
+        android:id="@+id/tvInfoSisa"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Sisa Target: 23 Pcs"
+        android:textColor="#808080"
+        android:layout_marginBottom="8dp"/>
+
+    <EditText
+        android:id="@+id/etInputJumlah"
+        android:layout_width="match_parent"
+        android:layout_height="50dp"
+        android:background="@drawable/bg_input_field"
+        android:paddingHorizontal="12dp"
+        android:hint="Masukkan jumlah selesai"
+        android:inputType="number"
+        android:layout_marginBottom="24dp"/>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:gravity="end">
+
+        <TextView
+            android:id="@+id/btnBatal"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Batal"
+            android:textColor="#808080"
+            android:padding="12dp"
+            android:layout_marginEnd="8dp"
+            android:textStyle="bold"/>
+
+        <Button
+            android:id="@+id/btnProses"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Proses"
+            android:backgroundTint="@color/medica_primary"
+            android:textColor="@color/white"/>
+    </LinearLayout>
+
+</LinearLayout>

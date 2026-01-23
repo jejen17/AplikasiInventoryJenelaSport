@@ -53,6 +53,7 @@
         </androidx.cardview.widget.CardView>
 
         <TextView
+            android:id="@+id/NamKar"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="Nama Karyawan"

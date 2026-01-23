@@ -49,38 +49,46 @@ public class SpkResponse {
         }
     }
 
-    // --- CLASS ITEM (Lebih Sederhana) ---
+    // --- CLASS ITEM  ---
     public static class Item implements Serializable {
 
         @SerializedName("id_detail")
         private String idDetail;
 
-        // Temanmu sudah mengirim ini sebagai String gabungan (Nama + Warna)
-        // Jadi kita tidak butuh object Produk lagi!
         @SerializedName("produk")
         private String namaProduk;
 
-        // Temanmu sudah mengirim ini sebagai String (misal: "L", "XL")
-        // Tidak butuh object Size lagi!
         @SerializedName("size")
         private String namaUkuran;
 
         @SerializedName("target")
-        private String target; // String jaga-jaga, nanti kita tampilkan langsung
+        private int target;
 
-        @SerializedName("selesai")
-        private String selesai;
+        @SerializedName("progress_total")
+        private int progressTotal;
 
-        @SerializedName("sisa")
-        private String sisa;
+        @SerializedName("sisa_qty")
+        private int sisaQty;
+
+        @SerializedName("sisa_label")
+        private String sisaLabel;
 
         // Getter
         public String getIdDetail() { return idDetail; }
         public String getNamaProduk() { return namaProduk; }
         public String getNamaUkuran() { return namaUkuran; }
-        public String getTarget() { return target; }
-        public String getSelesai() { return selesai; }
-        public String getSisa() { return sisa; }
+        public int getTarget() { return target; }
+        public int getProgressTotal() { return progressTotal; }
+        public int getSisaQty() { return sisaQty; }
+        public String getSisaLabel() { return sisaLabel; }
+
+        // Setter untuk update realtime di Android
+        public void setSisaQty(int sisaBaru) {
+            this.sisaQty = sisaBaru;
+        }
+        public void setSisaLabel(String labelBaru) {
+            this.sisaLabel = labelBaru;
+        }
     }
 
 

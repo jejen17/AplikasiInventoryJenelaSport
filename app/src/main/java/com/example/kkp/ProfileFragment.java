@@ -1,5 +1,7 @@
 package com.example.kkp;
 
+import android.content.Context;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 
 import androidx.fragment.app.Fragment;
@@ -10,6 +12,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
+import android.widget.TextView;
 import android.widget.Toast;
 
 /**
@@ -65,6 +68,12 @@ public class ProfileFragment extends Fragment {
 
 
         View view = inflater.inflate(R.layout.fragment_profile, container, false);
+
+        TextView namakar = view.findViewById(R.id.NamKar);
+        SharedPreferences sharedPref = requireActivity().getSharedPreferences("UserSession", Context.MODE_PRIVATE);
+        String nama = sharedPref.getString("nama", "Karyawan");
+
+        namakar.setText(nama);
 
         ImageView btnBack = view.findViewById(R.id.btnBack);
 

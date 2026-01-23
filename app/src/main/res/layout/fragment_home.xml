@@ -155,7 +155,7 @@
             android:id="@+id/btnSuratSPK"
             android:layout_width="match_parent"
             android:layout_height="60dp"
-            android:text="Surat SPK"
+            android:text="Surat Perintah Kerja"
             android:textAllCaps="false"
             android:textColor="@color/black"
             android:textSize="18sp"

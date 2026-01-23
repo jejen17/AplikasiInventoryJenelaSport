@@ -14,6 +14,9 @@ import api.ApiInterface;
 import model.SpkResponse;
 
 import java.util.ArrayList;
+import java.util.Collection;
+import java.util.Collections;
+import java.util.Comparator;
 import java.util.List;
 
 import retrofit2.Call;
@@ -62,6 +65,13 @@ public class SuratSPK extends AppCompatActivity {
                     List<SpkResponse.Spk> dataList = response.body().getData();
 
                     if (dataList != null && !dataList.isEmpty()) {
+
+                        Collections.sort(dataList, new Comparator<SpkResponse.Spk>() {
+                            @Override
+                            public int compare(SpkResponse.Spk spk1, SpkResponse.Spk spk2) {
+                                return spk2.getIdSpk().compareTo(spk1.getIdSpk());
+                            }
+                        });
 
                         SuratSPKAdapter adapter = new SuratSPKAdapter(SuratSPK.this, dataList);
                         lvSuratSPK.setAdapter(adapter);
