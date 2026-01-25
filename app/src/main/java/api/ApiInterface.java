@@ -1,6 +1,11 @@
 package api;
 
+import java.util.List;
+
+import model.HistoryResponse;
 import model.LoginResponse;
+import model.ProdukItem;
+import model.SizeItem;
 import model.SpkResponse;
 
 import okhttp3.ResponseBody;
@@ -11,6 +16,7 @@ import retrofit2.http.Header;
 import retrofit2.http.Headers;
 import retrofit2.http.POST;
 import retrofit2.http.GET;
+import retrofit2.http.Path;
 
 public interface ApiInterface {
 
@@ -34,4 +40,33 @@ public interface ApiInterface {
           @Field("id_detail") String idDetail,
           @Field("jumlah") int jumlah
     );
+
+    @Headers("Accept: application/json")
+    @FormUrlEncoded
+    @POST("android/barang-masuk")
+    Call<ResponseBody> inputBarangMasuk(
+            @Header("Authorization") String token,
+            @Field("id_produk") String idProduk, // ID dari Spinner Produk
+            @Field("id_size") String idSize,     // ID dari Spinner Ukuran
+            @Field("jumlah") int jumlah,
+            @Field("tanggal") String tanggal     // Format harus yyyy-MM-dd
+    );
+
+    @GET("android/list-produk")
+    Call<List<ProdukItem>> getListProduk(
+            @Header("Authorization") String token
+    );
+
+    // 2. Ambil List Size (Butuh ID Produk di URL)
+    @GET("android/list-size/{idProduk}")
+    Call<List<SizeItem>> getListSize(
+            @Header("Authorization") String token,
+            @Path("idProduk") String idProduk // Ini akan mengganti {idProduk} di URL
+    );
+
+    @GET("android/riwayat")
+    Call<HistoryResponse> getRiwayat(
+            @Header("Authorization") String token
+    );
+
 }

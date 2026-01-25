@@ -161,6 +161,7 @@
                 android:layout_marginBottom="8dp"/>
 
             <EditText
+                android:id="@+id/catat"
                 android:layout_width="match_parent"
                 android:layout_height="100dp"
                 android:background="@drawable/bg_input_field"

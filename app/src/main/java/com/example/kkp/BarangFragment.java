@@ -1,12 +1,15 @@
 package com.example.kkp;
 
-import android.app.DatePickerDialog;
+import android.content.Context;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
+import android.widget.EditText;
 import android.widget.LinearLayout;
 import android.widget.Spinner;
 import android.widget.TextView;
@@ -16,22 +19,40 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 
+import api.ApiClient;
+import api.ApiInterface;
+import model.OptionItem;
+import model.ProdukItem;
+import model.SizeItem;
+
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Calendar;
+import java.util.List;
 import java.util.Locale;
+
+import okhttp3.ResponseBody;
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
 
 public class BarangFragment extends Fragment {
 
-    TextView tvQuantity, tvTanggal;
-    LinearLayout layoutTanggal;
-    Button btnSimpan, btnPlus, btnMinus;
-    Spinner spinnerProduk, spinnerUkuran;
+    // View Components
+    private LinearLayout layoutTanggal;
+    private TextView tvTanggal, tvQuantity;
+    private Spinner spinnerProduk, spinnerUkuran;
+    private View btnMinus, btnPlus;
+    private Button btnSimpan;
+    private EditText etCatatan;
 
-    int quantity = 1;
-    Calendar calendar = Calendar.getInstance();
+    // Data Variables
+    private Calendar calendar = Calendar.getInstance();
+    private int quantity = 1;
+    private String selectedDateForApi = "";
 
     public BarangFragment() {
-
+        // Required empty public constructor
     }
 
     @Override
@@ -44,26 +65,24 @@ public class BarangFragment extends Fragment {
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
 
-
-        tvQuantity = view.findViewById(R.id.tvQuantity);
-        btnPlus = view.findViewById(R.id.btnPlus);
-        btnMinus = view.findViewById(R.id.btnMinus);
-        btnSimpan = view.findViewById(R.id.btnSimpan);
-        spinnerProduk = view.findViewById(R.id.spinnerProduk);
-        spinnerUkuran = view.findViewById(R.id.spinnerUkuran);
+        // 1. Inisialisasi View
         layoutTanggal = view.findViewById(R.id.layoutTanggal);
         tvTanggal = view.findViewById(R.id.tvTanggal);
+        tvQuantity = view.findViewById(R.id.tvQuantity);
+        spinnerProduk = view.findViewById(R.id.spinnerProduk);
+        spinnerUkuran = view.findViewById(R.id.spinnerUkuran);
+        btnMinus = view.findViewById(R.id.btnMinus);
+        btnPlus = view.findViewById(R.id.btnPlus);
+        btnSimpan = view.findViewById(R.id.btnSimpan);
 
+        // Cek ID di XML, pastikan ada android:id="@+id/etCatatan"
+        etCatatan = view.findViewById(R.id.catat);
 
+        // 2. Setup Tanggal (Hari ini & Tidak Bisa Diklik)
         updateLabelTanggal();
+        // layoutTanggal.setOnClickListener(...) <-- HAPUS/JANGAN DIPASANG agar tidak bisa diklik
 
-
-        setupSpinners();
-
-
-        layoutTanggal.setOnClickListener(v -> showDatePicker());
-
-
+        // 3. Setup Counter
         btnPlus.setOnClickListener(v -> {
             quantity++;
             tvQuantity.setText(String.valueOf(quantity));
@@ -76,68 +95,173 @@ public class BarangFragment extends Fragment {
             }
         });
 
+        // 4. Setup Simpan
+        btnSimpan.setOnClickListener(v -> simpanData());
 
-        btnSimpan.setOnClickListener(v -> {
-            String barang = spinnerProduk.getSelectedItem().toString();
-            String ukuran = spinnerUkuran.getSelectedItem().toString();
-            String tanggal = tvTanggal.getText().toString();
+        // 5. Setup Listener Spinner Produk
+        spinnerProduk.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+            @Override
+            public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+                OptionItem selectedItem = (OptionItem) parent.getItemAtPosition(position);
+                if (selectedItem != null) {
+                    loadSize(selectedItem.getId());
+                }
+            }
 
-            if (barang.equals("Pilih Barang")) {
-                Toast.makeText(getContext(), "Pilih barang dulu!", Toast.LENGTH_SHORT).show();
-            } else if (ukuran.equals("Pilih Ukuran")) {
-                Toast.makeText(getContext(), "Pilih ukuran dulu!", Toast.LENGTH_SHORT).show();
-            } else {
-                Toast.makeText(getContext(), "Data Tersimpan", Toast.LENGTH_SHORT).show();
+            @Override
+            public void onNothingSelected(AdapterView<?> parent) {}
+        });
+
+        // 6. Load Data Awal
+        loadProduk();
+    }
+
+    private void updateLabelTanggal() {
+        String formatUser = "dd MMMM yyyy";
+        SimpleDateFormat sdfUser = new SimpleDateFormat(formatUser, new Locale("id", "ID"));
+        tvTanggal.setText(sdfUser.format(calendar.getTime()));
+
+        String formatApi = "yyyy-MM-dd";
+        SimpleDateFormat sdfApi = new SimpleDateFormat(formatApi, Locale.US);
+        selectedDateForApi = sdfApi.format(calendar.getTime());
+    }
+
+    private void loadProduk() {
+        if (getActivity() == null) return; // Cek aman
+
+        SharedPreferences sharedPref = getActivity().getSharedPreferences("UserSession", Context.MODE_PRIVATE);
+        String token = sharedPref.getString("token", "");
+
+        ApiInterface apiInterface = ApiClient.getClient().create(ApiInterface.class);
+        Call<List<ProdukItem>> call = apiInterface.getListProduk("Bearer " + token);
+
+        call.enqueue(new Callback<List<ProdukItem>>() {
+            @Override
+            public void onResponse(Call<List<ProdukItem>> call, Response<List<ProdukItem>> response) {
+                // --- PENGAMAN UTAMA: CEK CONTEXT ---
+                if (getContext() == null) return;
+                // -----------------------------------
+
+                if (response.isSuccessful() && response.body() != null) {
+                    List<ProdukItem> data = response.body();
+                    List<OptionItem> listSpinner = new ArrayList<>();
+
+                    for (ProdukItem item : data) {
+                        listSpinner.add(new OptionItem(item.getId(), item.getNamaTampil()));
+                    }
+
+                    ArrayAdapter<OptionItem> adapter = new ArrayAdapter<>(getContext(), android.R.layout.simple_spinner_dropdown_item, listSpinner);
+                    spinnerProduk.setAdapter(adapter);
+                } else {
+                    Toast.makeText(getContext(), "Gagal memuat produk", Toast.LENGTH_SHORT).show();
+                }
+            }
+
+            @Override
+            public void onFailure(Call<List<ProdukItem>> call, Throwable t) {
+                if (getContext() != null) {
+                    Toast.makeText(getContext(), "Koneksi Error: " + t.getMessage(), Toast.LENGTH_SHORT).show();
+                }
             }
         });
     }
 
-    private void setupSpinners() {
+    private void loadSize(String idProduk) {
+        // --- PENGAMAN ---
+        if (getContext() == null) return;
 
-        String[] daftarBarang = {
-                "Pilih Barang",
-                "Baju A",
-                "Baju B",
-                "Baju C",
-                "Baju E"};
-        ArrayAdapter<String> adapterProduk = new ArrayAdapter<>(requireContext(), android.R.layout.simple_spinner_item, daftarBarang);
-        adapterProduk.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
-        spinnerProduk.setAdapter(adapterProduk);
+        // Kosongkan spinner size dulu
+        spinnerUkuran.setAdapter(null);
 
+        if (getActivity() == null) return;
+        SharedPreferences sharedPref = getActivity().getSharedPreferences("UserSession", Context.MODE_PRIVATE);
+        String token = sharedPref.getString("token", "");
 
-        String[] daftarUkuran = {
-                "Pilih Ukuran",
-                "5",
-                "7",
-                "8",
-                "S",
-                "M",
-                "L",
-                "XL"};
-        ArrayAdapter<String> adapterUkuran = new ArrayAdapter<>(requireContext(), android.R.layout.simple_spinner_item, daftarUkuran);
-        adapterUkuran.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
-        spinnerUkuran.setAdapter(adapterUkuran);
+        ApiInterface apiInterface = ApiClient.getClient().create(ApiInterface.class);
+        Call<List<SizeItem>> call = apiInterface.getListSize("Bearer " + token, idProduk);
+
+        call.enqueue(new Callback<List<SizeItem>>() {
+            @Override
+            public void onResponse(Call<List<SizeItem>> call, Response<List<SizeItem>> response) {
+                // --- PENGAMAN UTAMA ---
+                if (getContext() == null) return;
+                // ----------------------
+
+                if (response.isSuccessful() && response.body() != null) {
+                    List<SizeItem> data = response.body();
+                    List<OptionItem> listSpinner = new ArrayList<>();
+
+                    for (SizeItem item : data) {
+                        listSpinner.add(new OptionItem(item.getId(), item.getTipe()));
+                    }
+
+                    ArrayAdapter<OptionItem> adapter = new ArrayAdapter<>(getContext(), android.R.layout.simple_spinner_dropdown_item, listSpinner);
+                    spinnerUkuran.setAdapter(adapter);
+
+                    if (listSpinner.isEmpty()) {
+                        Toast.makeText(getContext(), "Ukuran tidak tersedia", Toast.LENGTH_SHORT).show();
+                    }
+                }
+            }
+
+            @Override
+            public void onFailure(Call<List<SizeItem>> call, Throwable t) {
+                if (getContext() != null) {
+                    Toast.makeText(getContext(), "Koneksi Error", Toast.LENGTH_SHORT).show();
+                }
+            }
+        });
     }
 
-    private void showDatePicker() {
-        DatePickerDialog datePickerDialog = new DatePickerDialog(
-                requireContext(),
-                (view, year, month, dayOfMonth) -> {
-                    calendar.set(Calendar.YEAR, year);
-                    calendar.set(Calendar.MONTH, month);
-                    calendar.set(Calendar.DAY_OF_MONTH, dayOfMonth);
-                    updateLabelTanggal();
-                },
-                calendar.get(Calendar.YEAR),
-                calendar.get(Calendar.MONTH),
-                calendar.get(Calendar.DAY_OF_MONTH)
+    private void simpanData() {
+        if (getContext() == null) return;
+
+        OptionItem selectedProduk = (OptionItem) spinnerProduk.getSelectedItem();
+        OptionItem selectedSize = (OptionItem) spinnerUkuran.getSelectedItem();
+
+        if (selectedProduk == null || selectedSize == null) {
+            Toast.makeText(getContext(), "Pilih Produk & Ukuran dulu", Toast.LENGTH_SHORT).show();
+            return;
+        }
+
+        if (getActivity() == null) return;
+        SharedPreferences sharedPref = getActivity().getSharedPreferences("UserSession", Context.MODE_PRIVATE);
+        String token = sharedPref.getString("token", "");
+
+        ApiInterface apiInterface = ApiClient.getClient().create(ApiInterface.class);
+        Call<ResponseBody> call = apiInterface.inputBarangMasuk(
+                "Bearer " + token,
+                selectedProduk.getId(),
+                selectedSize.getId(),
+                quantity,
+                selectedDateForApi
         );
-        datePickerDialog.show();
-    }
 
-    private void updateLabelTanggal() {
-        String myFormat = "dd/MM/yyyy";
-        SimpleDateFormat sdf = new SimpleDateFormat(myFormat, Locale.getDefault());
-        tvTanggal.setText(sdf.format(calendar.getTime()));
+        Toast.makeText(getContext(), "Menyimpan...", Toast.LENGTH_SHORT).show();
+
+        call.enqueue(new Callback<ResponseBody>() {
+            @Override
+            public void onResponse(Call<ResponseBody> call, Response<ResponseBody> response) {
+                // --- PENGAMAN UTAMA ---
+                if (getContext() == null) return;
+                // ----------------------
+
+                if (response.isSuccessful()) {
+                    Toast.makeText(getContext(), "Berhasil Disimpan!", Toast.LENGTH_LONG).show();
+                    quantity = 1;
+                    tvQuantity.setText("1");
+                    if (etCatatan != null) etCatatan.setText("");
+                } else {
+                    Toast.makeText(getContext(), "Gagal Simpan", Toast.LENGTH_SHORT).show();
+                }
+            }
+
+            @Override
+            public void onFailure(Call<ResponseBody> call, Throwable t) {
+                if (getContext() != null) {
+                    Toast.makeText(getContext(), "Gagal Terhubung", Toast.LENGTH_SHORT).show();
+                }
+            }
+        });
     }
 }
