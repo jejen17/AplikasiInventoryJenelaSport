@@ -46,24 +46,24 @@ public class HistoryAdapter extends RecyclerView.Adapter<HistoryAdapter.ViewHold
         holder.tvTanggal.setText(item.getTanggal());
 
         if ("Masuk".equalsIgnoreCase(item.getType())) {
-            // Gaya untuk Barang MASUK (Hijau)
+            //barang masuk
             holder.tvJumlah.setText("+" + item.getJumlah());
-            holder.tvJumlah.setTextColor(Color.parseColor("#4CAF50")); // Hijau
+            holder.tvJumlah.setTextColor(Color.parseColor("#14B835"));
             holder.tvStatus.setText("Masuk");
 
-            // Icon Panah Bawah (Masuk) - Hijau
+
             holder.imgIcon.setImageResource(R.drawable.arrow_bawah);
-            holder.imgIcon.setColorFilter(Color.parseColor("#4CAF50"));
+            holder.imgIcon.setColorFilter(Color.parseColor("#14B835"));
 
         } else {
-            // Gaya untuk Barang KELUAR (Merah)
+            //barang keluar
             holder.tvJumlah.setText("-" + item.getJumlah());
-            holder.tvJumlah.setTextColor(Color.parseColor("#F44336")); // Merah
+            holder.tvJumlah.setTextColor(Color.parseColor("#FC756A"));
             holder.tvStatus.setText("Keluar");
 
-            // Icon Panah Atas (Keluar) - Merah
+
             holder.imgIcon.setImageResource(R.drawable.arrow_atas);
-            holder.imgIcon.setColorFilter(Color.parseColor("#F44336"));
+            holder.imgIcon.setColorFilter(Color.parseColor("#FC756A"));
         }
     }
 

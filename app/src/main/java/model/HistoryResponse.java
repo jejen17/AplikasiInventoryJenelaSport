@@ -22,7 +22,7 @@ public class HistoryResponse {
         private int jumlah;
 
         @SerializedName("type")
-        private String type; // "Masuk" atau "Keluar"
+        private String type;
 
         @SerializedName("tanggal")
         private String tanggal;

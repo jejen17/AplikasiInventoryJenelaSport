@@ -38,18 +38,21 @@ import retrofit2.Response;
 
 public class BarangFragment extends Fragment {
 
-    // View Components
     private LinearLayout layoutTanggal;
-    private TextView tvTanggal, tvQuantity;
+    private TextView tvTanggal;
+
+    private EditText tvQuantity;
+
     private Spinner spinnerProduk, spinnerUkuran;
     private View btnMinus, btnPlus;
     private Button btnSimpan;
     private EditText etCatatan;
 
-    // Data Variables
+
     private Calendar calendar = Calendar.getInstance();
-    private int quantity = 1;
     private String selectedDateForApi = "";
+
+
 
     public BarangFragment() {
         // Required empty public constructor
@@ -65,55 +68,60 @@ public class BarangFragment extends Fragment {
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
 
-        // 1. Inisialisasi View
         layoutTanggal = view.findViewById(R.id.layoutTanggal);
         tvTanggal = view.findViewById(R.id.tvTanggal);
+
+
         tvQuantity = view.findViewById(R.id.tvQuantity);
+
         spinnerProduk = view.findViewById(R.id.spinnerProduk);
         spinnerUkuran = view.findViewById(R.id.spinnerUkuran);
         btnMinus = view.findViewById(R.id.btnMinus);
         btnPlus = view.findViewById(R.id.btnPlus);
         btnSimpan = view.findViewById(R.id.btnSimpan);
 
-        // Cek ID di XML, pastikan ada android:id="@+id/etCatatan"
+
         etCatatan = view.findViewById(R.id.catat);
 
-        // 2. Setup Tanggal (Hari ini & Tidak Bisa Diklik)
-        updateLabelTanggal();
-        // layoutTanggal.setOnClickListener(...) <-- HAPUS/JANGAN DIPASANG agar tidak bisa diklik
 
-        // 3. Setup Counter
+        updateLabelTanggal();
+
+
         btnPlus.setOnClickListener(v -> {
-            quantity++;
-            tvQuantity.setText(String.valueOf(quantity));
+            int currentQty = getCurrentQuantity();
+            currentQty++;
+            tvQuantity.setText(String.valueOf(currentQty));
         });
 
         btnMinus.setOnClickListener(v -> {
-            if (quantity > 1) {
-                quantity--;
-                tvQuantity.setText(String.valueOf(quantity));
+            int currentQty = getCurrentQuantity();
+            if (currentQty > 1) {
+                currentQty--;
+                tvQuantity.setText(String.valueOf(currentQty));
             }
         });
 
-        // 4. Setup Simpan
+
         btnSimpan.setOnClickListener(v -> simpanData());
 
-        // 5. Setup Listener Spinner Produk
-        spinnerProduk.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
-            @Override
-            public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
-                OptionItem selectedItem = (OptionItem) parent.getItemAtPosition(position);
-                if (selectedItem != null) {
-                    loadSize(selectedItem.getId());
-                }
-            }
+        // 5. Setup Logic Dropdown
+        setupSpinnerLogic();
 
-            @Override
-            public void onNothingSelected(AdapterView<?> parent) {}
-        });
 
-        // 6. Load Data Awal
         loadProduk();
+    }
+
+    // --- HELPER BARU: Ambil Angka dari EditText ---
+    private int getCurrentQuantity() {
+        String qtyStr = tvQuantity.getText().toString();
+        if (qtyStr.isEmpty()) {
+            return 0; // Default kalau kosong
+        }
+        try {
+            return Integer.parseInt(qtyStr);
+        } catch (NumberFormatException e) {
+            return 0;
+        }
     }
 
     private void updateLabelTanggal() {
@@ -126,9 +134,22 @@ public class BarangFragment extends Fragment {
         selectedDateForApi = sdfApi.format(calendar.getTime());
     }
 
-    private void loadProduk() {
-        if (getActivity() == null) return; // Cek aman
+    private void setupSpinnerLogic() {
+        spinnerProduk.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+            @Override
+            public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+                OptionItem selectedItem = (OptionItem) parent.getItemAtPosition(position);
+                if (selectedItem != null) {
+                    loadSize(selectedItem.getId());
+                }
+            }
+            @Override
+            public void onNothingSelected(AdapterView<?> parent) {}
+        });
+    }
 
+    private void loadProduk() {
+        if (getActivity() == null) return;
         SharedPreferences sharedPref = getActivity().getSharedPreferences("UserSession", Context.MODE_PRIVATE);
         String token = sharedPref.getString("token", "");
 
@@ -138,42 +159,29 @@ public class BarangFragment extends Fragment {
         call.enqueue(new Callback<List<ProdukItem>>() {
             @Override
             public void onResponse(Call<List<ProdukItem>> call, Response<List<ProdukItem>> response) {
-                // --- PENGAMAN UTAMA: CEK CONTEXT ---
                 if (getContext() == null) return;
-                // -----------------------------------
-
                 if (response.isSuccessful() && response.body() != null) {
                     List<ProdukItem> data = response.body();
                     List<OptionItem> listSpinner = new ArrayList<>();
-
                     for (ProdukItem item : data) {
                         listSpinner.add(new OptionItem(item.getId(), item.getNamaTampil()));
                     }
-
                     ArrayAdapter<OptionItem> adapter = new ArrayAdapter<>(getContext(), android.R.layout.simple_spinner_dropdown_item, listSpinner);
                     spinnerProduk.setAdapter(adapter);
                 } else {
                     Toast.makeText(getContext(), "Gagal memuat produk", Toast.LENGTH_SHORT).show();
                 }
             }
-
             @Override
             public void onFailure(Call<List<ProdukItem>> call, Throwable t) {
-                if (getContext() != null) {
-                    Toast.makeText(getContext(), "Koneksi Error: " + t.getMessage(), Toast.LENGTH_SHORT).show();
-                }
+                if (getContext() != null) Toast.makeText(getContext(), "Koneksi Error", Toast.LENGTH_SHORT).show();
             }
         });
     }
 
     private void loadSize(String idProduk) {
-        // --- PENGAMAN ---
         if (getContext() == null) return;
-
-        // Kosongkan spinner size dulu
         spinnerUkuran.setAdapter(null);
-
-        if (getActivity() == null) return;
         SharedPreferences sharedPref = getActivity().getSharedPreferences("UserSession", Context.MODE_PRIVATE);
         String token = sharedPref.getString("token", "");
 
@@ -183,32 +191,20 @@ public class BarangFragment extends Fragment {
         call.enqueue(new Callback<List<SizeItem>>() {
             @Override
             public void onResponse(Call<List<SizeItem>> call, Response<List<SizeItem>> response) {
-                // --- PENGAMAN UTAMA ---
                 if (getContext() == null) return;
-                // ----------------------
-
                 if (response.isSuccessful() && response.body() != null) {
                     List<SizeItem> data = response.body();
                     List<OptionItem> listSpinner = new ArrayList<>();
-
                     for (SizeItem item : data) {
                         listSpinner.add(new OptionItem(item.getId(), item.getTipe()));
                     }
-
                     ArrayAdapter<OptionItem> adapter = new ArrayAdapter<>(getContext(), android.R.layout.simple_spinner_dropdown_item, listSpinner);
                     spinnerUkuran.setAdapter(adapter);
-
-                    if (listSpinner.isEmpty()) {
-                        Toast.makeText(getContext(), "Ukuran tidak tersedia", Toast.LENGTH_SHORT).show();
-                    }
                 }
             }
-
             @Override
             public void onFailure(Call<List<SizeItem>> call, Throwable t) {
-                if (getContext() != null) {
-                    Toast.makeText(getContext(), "Koneksi Error", Toast.LENGTH_SHORT).show();
-                }
+                if (getContext() != null) Toast.makeText(getContext(), "Koneksi Error", Toast.LENGTH_SHORT).show();
             }
         });
     }
@@ -219,12 +215,20 @@ public class BarangFragment extends Fragment {
         OptionItem selectedProduk = (OptionItem) spinnerProduk.getSelectedItem();
         OptionItem selectedSize = (OptionItem) spinnerUkuran.getSelectedItem();
 
+        // PERBAIKAN 3: Ambil Quantity Langsung dari EditText saat tombol simpan ditekan
+        int finalQuantity = getCurrentQuantity();
+
         if (selectedProduk == null || selectedSize == null) {
             Toast.makeText(getContext(), "Pilih Produk & Ukuran dulu", Toast.LENGTH_SHORT).show();
             return;
         }
 
-        if (getActivity() == null) return;
+        // Validasi: Jangan kirim kalau 0 atau kosong
+        if (finalQuantity <= 0) {
+            Toast.makeText(getContext(), "Jumlah harus lebih dari 0", Toast.LENGTH_SHORT).show();
+            return;
+        }
+
         SharedPreferences sharedPref = getActivity().getSharedPreferences("UserSession", Context.MODE_PRIVATE);
         String token = sharedPref.getString("token", "");
 
@@ -233,7 +237,7 @@ public class BarangFragment extends Fragment {
                 "Bearer " + token,
                 selectedProduk.getId(),
                 selectedSize.getId(),
-                quantity,
+                finalQuantity, // Kirim data yang baru diambil
                 selectedDateForApi
         );
 
@@ -242,25 +246,18 @@ public class BarangFragment extends Fragment {
         call.enqueue(new Callback<ResponseBody>() {
             @Override
             public void onResponse(Call<ResponseBody> call, Response<ResponseBody> response) {
-                // --- PENGAMAN UTAMA ---
                 if (getContext() == null) return;
-                // ----------------------
-
                 if (response.isSuccessful()) {
                     Toast.makeText(getContext(), "Berhasil Disimpan!", Toast.LENGTH_LONG).show();
-                    quantity = 1;
-                    tvQuantity.setText("1");
+                    tvQuantity.setText("1"); // Reset ke 1
                     if (etCatatan != null) etCatatan.setText("");
                 } else {
                     Toast.makeText(getContext(), "Gagal Simpan", Toast.LENGTH_SHORT).show();
                 }
             }
-
             @Override
             public void onFailure(Call<ResponseBody> call, Throwable t) {
-                if (getContext() != null) {
-                    Toast.makeText(getContext(), "Gagal Terhubung", Toast.LENGTH_SHORT).show();
-                }
+                if (getContext() != null) Toast.makeText(getContext(), "Gagal Terhubung", Toast.LENGTH_SHORT).show();
             }
         });
     }

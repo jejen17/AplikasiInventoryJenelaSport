@@ -46,10 +46,10 @@ public interface ApiInterface {
     @POST("android/barang-masuk")
     Call<ResponseBody> inputBarangMasuk(
             @Header("Authorization") String token,
-            @Field("id_produk") String idProduk, // ID dari Spinner Produk
-            @Field("id_size") String idSize,     // ID dari Spinner Ukuran
+            @Field("id_produk") String idProduk,
+            @Field("id_size") String idSize,
             @Field("jumlah") int jumlah,
-            @Field("tanggal") String tanggal     // Format harus yyyy-MM-dd
+            @Field("tanggal") String tanggal
     );
 
     @GET("android/list-produk")
@@ -57,11 +57,11 @@ public interface ApiInterface {
             @Header("Authorization") String token
     );
 
-    // 2. Ambil List Size (Butuh ID Produk di URL)
+
     @GET("android/list-size/{idProduk}")
     Call<List<SizeItem>> getListSize(
             @Header("Authorization") String token,
-            @Path("idProduk") String idProduk // Ini akan mengganti {idProduk} di URL
+            @Path("idProduk") String idProduk
     );
 
     @GET("android/riwayat")
