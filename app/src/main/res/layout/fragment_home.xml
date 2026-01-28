@@ -108,9 +108,10 @@
                     android:layout_marginTop="16dp"/>
 
                 <TextView
+                    android:id="@+id/tvTotalProduk"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="4"
+                    android:text="0"
                     android:textSize="20sp"
                     android:fontFamily="@font/opensansbold"
                     android:textColor="@color/black"
@@ -118,13 +119,15 @@
             </LinearLayout>
 
             <LinearLayout
+                android:id="@+id/layoutStokMenipis"
                 android:layout_width="0dp"
                 android:layout_height="140dp"
                 android:layout_weight="1"
                 android:orientation="vertical"
                 android:background="@drawable/bg_input_field"
                 android:padding="16dp"
-                android:layout_marginStart="8dp">
+                android:layout_marginStart="8dp"
+                android:clickable="true">
 
                 <ImageView
                     android:layout_width="24dp"
@@ -141,9 +144,10 @@
                     android:layout_marginTop="16dp"/>
 
                 <TextView
+                    android:id="@+id/tvStokMenipis"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="10"
+                    android:text="0"
                     android:textSize="20sp"
                     android:fontFamily="@font/opensansbold"
                     android:textColor="@color/black"

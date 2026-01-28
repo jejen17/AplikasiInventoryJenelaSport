@@ -2,8 +2,10 @@ package api;
 
 import java.util.List;
 
+import model.DashboardResponse;
 import model.HistoryResponse;
 import model.LoginResponse;
+import model.LowStockResponse;
 import model.ProdukItem;
 import model.SizeItem;
 import model.SpkResponse;
@@ -66,6 +68,16 @@ public interface ApiInterface {
 
     @GET("android/riwayat")
     Call<HistoryResponse> getRiwayat(
+            @Header("Authorization") String token
+    );
+
+    @GET("android/dashboard")
+    Call<DashboardResponse> getDashboardSummary(
+            @Header("Authorization") String token
+    );
+
+    @GET("android/stok-menipis-list")
+    Call<LowStockResponse> getLowStockList(
             @Header("Authorization") String token
     );
 

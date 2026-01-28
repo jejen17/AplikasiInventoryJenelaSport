@@ -22,6 +22,8 @@ public class SpkResponse {
         @SerializedName("id_spk")
         private String idSpk;
 
+        @SerializedName("status")
+        private String status;
 
         @SerializedName("target_date")
         private String targetDate;
@@ -38,6 +40,7 @@ public class SpkResponse {
 
         // Getter
         public String getIdSpk() { return idSpk; }
+        public String getStatus() { return status; }
         public String getTargetDate() { return targetDate; }
         public String getNamaPelanggan() { return namaPelanggan; }
         public String getCatatan() { return catatan; }
