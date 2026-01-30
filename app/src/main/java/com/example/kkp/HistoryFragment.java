@@ -82,7 +82,6 @@ public class HistoryFragment extends Fragment {
         ApiInterface apiInterface = ApiClient.getClient().create(ApiInterface.class);
         Call<HistoryResponse> call = apiInterface.getRiwayat("Bearer " + token);
 
-        // Opsional: Tampilkan loading
         Toast.makeText(getContext(), "Memuat data...", Toast.LENGTH_SHORT).show();
 
         call.enqueue(new Callback<HistoryResponse>() {
@@ -91,22 +90,17 @@ public class HistoryFragment extends Fragment {
                 if (response.isSuccessful() && response.body() != null) {
                     fullList = response.body().getData();
 
-                    // --- PERBAIKAN DI SINI ---
-                    // Karena adapter sudah dipasang di atas, kita tinggal UPDATE datanya
+
                     if (fullList != null && !fullList.isEmpty()) {
                         adapter.updateList(fullList);
                         updateTabStyle(tabSemua);
                     } else {
                         Toast.makeText(getContext(), "Riwayat masih kosong", Toast.LENGTH_SHORT).show();
                     }
-                    // -------------------------
                 } else {
                     try {
-                        // Ambil pesan error asli dari server
                         String errorBody = response.errorBody().string();
-                        // Tampilkan di Logcat (Copy log ini kalau masih error)
                         android.util.Log.e("ERROR_RIWAYAT", errorBody);
-
                         Toast.makeText(getContext(), "Server Error: " + response.code(), Toast.LENGTH_SHORT).show();
                     } catch (Exception e) {
                         e.printStackTrace();
@@ -116,9 +110,8 @@ public class HistoryFragment extends Fragment {
 
             @Override
             public void onFailure(Call<HistoryResponse> call, Throwable t) {
-                // Tampilkan pesan error yang lebih jelas
                 Toast.makeText(getContext(), "Koneksi Bermasalah: " + t.getMessage(), Toast.LENGTH_LONG).show();
-                t.printStackTrace(); // Cek Logcat untuk detail error
+                t.printStackTrace();
             }
         });
     }

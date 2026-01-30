@@ -59,15 +59,14 @@ public class Login extends AppCompatActivity {
         loginCall.enqueue(new Callback<LoginResponse>() {
             @Override
             public void onResponse(Call<LoginResponse> call, Response<LoginResponse> response) {
-                // Cek apakah server merespon (HTTP 200 OK)
                 if (response.isSuccessful() && response.body() != null) {
 
                     LoginResponse loginResponse = response.body();
 
-                    // Cek apakah Login Sukses (success: true)
+
                     if (loginResponse.isSuccess()) {
 
-                        // AMBIL DATA PENTING
+
                         String namaUser = loginResponse.getData().getUser().getNama();
                         String token = loginResponse.getData().getToken();
 
@@ -79,11 +78,11 @@ public class Login extends AppCompatActivity {
                         editor.putBoolean("isLoggedIn", true);
                         editor.apply();
 
-                        // PINDAH KE MENU UTAMA
+
                         Toast.makeText(Login.this, "Login Berhasil ", Toast.LENGTH_LONG).show();
                         Intent intent = new Intent(Login.this, MainActivity.class);
                         startActivity(intent);
-                        finish(); // Tutup halaman login agar tidak bisa back
+                        finish();
 
                     } else {
                         Toast.makeText(Login.this, loginResponse.getMessage(), Toast.LENGTH_LONG).show();

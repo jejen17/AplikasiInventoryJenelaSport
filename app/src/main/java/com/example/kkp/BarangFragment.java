@@ -111,7 +111,6 @@ public class BarangFragment extends Fragment {
         loadProduk();
     }
 
-    // --- HELPER BARU: Ambil Angka dari EditText ---
     private int getCurrentQuantity() {
         String qtyStr = tvQuantity.getText().toString();
         if (qtyStr.isEmpty()) {

@@ -12,7 +12,7 @@ public class OptionItem {
     public String getId() { return id; }
     public String getName() { return name; }
 
-    // Ini penting! Spinner akan memanggil toString() untuk menampilkan teks
+
     @Override
     public String toString() {
         return name;
